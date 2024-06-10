@@ -1,0 +1,9 @@
+module shuffle_fsm(
+	input clk,
+	input reset, 
+	output logic [7:0] data,
+   output logic [7:0] address,
+	output logic rden,
+	output logic wren,
+	output logic not_complete
+	);

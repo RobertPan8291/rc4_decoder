@@ -1,0 +1,30 @@
+module initialize_fsm(
+	input clk,
+	input reset, 
+	output logic [7:0] data,
+   output logic [7:0] address,
+	output logic rden,
+	output logic wren,
+	output logic not_complete
+	);
+	
+	always_ff@(posedge clk or posedge reset) begin
+		if(!reset) begin 
+			wren <= 1'b1; 
+			rden <= 1'b0;
+			address <= 8'd0;
+			data <= 8'd0;
+			not_complete <= 1'b0
+		end else begin
+			if(address < 8'd255) begin
+				wren <= 1'b1; 
+				address <= address + 1;
+				data <= data + 1;
+				rden <= 1'b0;
+			else begin
+				not_complete <= 1'b1;
+			end
+		end
+	end
+	
+endmodule
