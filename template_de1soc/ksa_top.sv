@@ -18,22 +18,27 @@ module ksa_top(
 	assign clk = CLOCK_50;
 	assign reset_n = KEY[3];
 	
-	logic [7:0] data = 8'd0; 
+	logic [7:0] data; 
 	logic wren; //write enable;
-	logic [7:0] address = 8'd0; 
+	logic [7:0] address; 
 	logic [7:0] q;
 	logic rden; //read enable;
 	
-	logic finish_generation = 1'b0;
-
-	parameter [3:0] INITIALIZE = 4'b0000,
-						 SHUFFLE = 4'b0010,
-						 WAIT = 4'b0011,
-						 RECORD = 4'b0100,
-						 COMPUTE_J = 4'b0101;
-						 
 		
-	logic [3:0] state = INITIALIZE;
+	logic [7:0] data_1; 
+	logic wren_1; //write enable;
+	logic [7:0] address_1; 
+	logic rden_1; //read enable;
+	
+	logic [7:0] data_2; 
+	logic wren_2; //write enable;
+	logic [7:0] address_2; 
+	logic rden_2; //read enable;
+	
+	logic initalize_not_complete;
+	logic shuffle_not_complete;
+	
+		
 	
 	logic [7:0] counter_i = 8'd0;
 	
@@ -51,44 +56,46 @@ module ksa_top(
 	); 
 	
 
-	always_ff @(posedge clk) begin
-		if(state == INITIALIZE) begin
-			wren <= 1'b1; 
-			address <= address + 1;
-			data <= data + 1;
-			rden <= 1'b0;
-		end 
-		else if(state == SHUFFLE) begin
-			wren <= 1'b0;
-			rden <= 1'b1; 
-			address <= address + 1;
-			counter_i <= counter_i + 1;
-		end
-		else if(state == RECORD) begin
-			temp_reg <= q;
-		end
-		//else if(state == COMPUTE_J) begin
-			//counter_j <= counter_j + temp_reg;
-		//end
-	end
-	
-	always_ff @(posedge clk) begin
-		if(~reset_n) begin
-			state <= INITIALIZE;
-		end else begin
-			case(state)
-				INITIALIZE: begin
-									if(address == 8'd255) begin
-										state <= SHUFFLE;
-									end
-								end
-				SHUFFLE: state <= WAIT;
-				WAIT: state <= RECORD;
-				RECORD: state <= SHUFFLE;
-			endcase
-		end
-	
-	end
+	initialize_fsm initialize_fsm_inst(
+		.clk(clk),
+		.reset(reset_n),
+		.data(data_1),
+		.address(address_1),
+		.wren(wren_1),
+		.rden(rden_1),
+		.not_complete(initalize_not_complete)
+		); 
+		
+	shuffle_fsm shuffle_fsm_inst(
+		.clk(clk),
+		.reset(reset_n),
+		.start(initalize_not_complete),
+		.q(q),
+		.data(data_2),
+		.address(address_2),
+		.wren(wren_2),
+		.rden(rden_2),
+		.not_complete(shuffle_not_complete)
+		);
+		
+	to_RAM_mux to_RAM_mux_inst(
+		.data_1(data_1),
+		.address_1(address_1),
+		.wren_1(wren_1),
+		.rden_1(rden_1),
+		.data_2(data_2),
+		.address_2(address_2),
+		.wren_2(wren_2),
+		.rden_2(rden_2),
+		.state({8'b0, shuffle_not_complete, initalize_not_complete}),
+		.data(data),
+		.wren(wren),
+		.address(address),
+		.rden(rden)
+	);
+		
+		
+		
 	
 	
 endmodule
