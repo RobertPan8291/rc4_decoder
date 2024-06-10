@@ -1,9 +1,9 @@
-C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv
+C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/db/ip/sld73f98f60/submodules/alt_sld_fab_alt_sld_fab_ident.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/db/ip/sld73f98f60/submodules/alt_sld_fab_alt_sld_fab_ident.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module ksa_top
+-- Compiling module alt_sld_fab_alt_sld_fab_ident
 
 Top level modules:
-	ksa_top
+	alt_sld_fab_alt_sld_fab_ident
 
 } {} {}} C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory_bb_bb.v {1 {vlog -work work -stats=none C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory_bb_bb.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
