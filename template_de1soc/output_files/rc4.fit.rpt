@@ -1,5 +1,5 @@
 Fitter report for rc4
-Mon Jun 10 14:05:59 2024
+Mon Jun 10 14:52:17 2024
 Quartus Prime Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
 
 
@@ -65,7 +65,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Fitter Summary                                                                ;
 +---------------------------------+---------------------------------------------+
-; Fitter Status                   ; Successful - Mon Jun 10 14:05:59 2024       ;
+; Fitter Status                   ; Successful - Mon Jun 10 14:52:17 2024       ;
 ; Quartus Prime Version           ; 16.1.2 Build 203 01/18/2017 SJ Lite Edition ;
 ; Revision Name                   ; rc4                                         ;
 ; Top-level Entity Name           ; ksa_top                                     ;
@@ -162,7 +162,7 @@ agreement for further details.
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   1.1%      ;
 ;     Processor 3            ;   1.0%      ;
-;     Processor 4            ;   1.0%      ;
+;     Processor 4            ;   0.9%      ;
 +----------------------------+-------------+
 
 
@@ -2310,7 +2310,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_reg[7]~1                                                                                                                                                                                                                             ; LABCELL_X4_Y2_N54  ; 8       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|WORD_SR[1]~2                                                                                                                                                                                   ; LABCELL_X1_Y3_N36  ; 4       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|word_counter[0]~1                                                                                                                                                                              ; LABCELL_X1_Y3_N57  ; 9       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
-; shuffle_fsm:shuffle_fsm_inst|address[0]~0                                                                                                                                                                                                                                                                                                                  ; MLABCELL_X8_Y2_N27 ; 8       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
+; shuffle_fsm:shuffle_fsm_inst|Mux1~0                                                                                                                                                                                                                                                                                                                        ; MLABCELL_X8_Y2_N27 ; 8       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; shuffle_fsm:shuffle_fsm_inst|state[1]                                                                                                                                                                                                                                                                                                                      ; FF_X8_Y2_N26       ; 11      ; Sync. clear                ; no     ; --                   ; --               ; --                        ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|clr_reg                                   ; FF_X1_Y4_N35       ; 24      ; Async. clear               ; no     ; --                   ; --               ; --                        ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|design_hash_reg[2]~3                      ; LABCELL_X1_Y3_N9   ; 4       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
@@ -2963,7 +2963,7 @@ Warning (15705): Ignored locations or region assignments to the following nodes
     Warning (15706): Node "VGA_R[7]" is assigned to location or region, but does not exist in design
     Warning (15706): Node "VGA_SYNC_N" is assigned to location or region, but does not exist in design
     Warning (15706): Node "VGA_VS" is assigned to location or region, but does not exist in design
-Info (11798): Fitter preparation operations ending: elapsed time is 00:00:14
+Info (11798): Fitter preparation operations ending: elapsed time is 00:00:13
 Info (170189): Fitter placement preparation operations beginning
 Info (14951): The Fitter is using Advanced Physical Optimization.
 Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:02
@@ -2979,14 +2979,14 @@ Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Info (11801): Fitter post-fit operations ending: elapsed time is 00:00:05
+Info (11801): Fitter post-fit operations ending: elapsed time is 00:00:06
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Info (144001): Generated suppressed messages file C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/output_files/rc4.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 196 warnings
     Info: Peak virtual memory: 6688 megabytes
-    Info: Processing ended: Mon Jun 10 14:05:59 2024
-    Info: Elapsed time: 00:00:43
-    Info: Total CPU time (on all processors): 00:00:51
+    Info: Processing ended: Mon Jun 10 14:52:18 2024
+    Info: Elapsed time: 00:00:42
+    Info: Total CPU time (on all processors): 00:00:57
 
 
 +----------------------------+

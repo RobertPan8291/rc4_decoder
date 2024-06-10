@@ -38,13 +38,14 @@ module ksa_top(
 	logic initalize_not_complete;
 	logic shuffle_not_complete;
 	
-		
+	logic [23:0] secret_key;
+	
+	assign secret_key = {14'd0, SW};
 	
 	logic [7:0] counter_i = 8'd0;
 	
 	logic [7:0] counter_j = 8'd0;
 	
-	logic [7:0] temp_reg;
 	
 	s_memory my_mem(
 		.data(data),
@@ -71,6 +72,7 @@ module ksa_top(
 		.reset(reset_n),
 		.start(initalize_not_complete),
 		.q(q),
+		.secret_key(secret_key),
 		.data(data_2),
 		.address(address_2),
 		.wren(wren_2),

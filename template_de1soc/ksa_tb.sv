@@ -28,6 +28,7 @@ module ksa_top_tb();
 	always #5 CLOCK_50 = ~CLOCK_50;
 	
 	initial begin
+		SW = 10'b1001001001;
 		CLOCK_50 = 1'b0;
 		KEY[3] = 1'b0;
 		#10;

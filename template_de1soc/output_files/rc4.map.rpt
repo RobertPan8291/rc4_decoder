@@ -1,5 +1,5 @@
 Analysis & Synthesis report for rc4
-Mon Jun 10 14:05:15 2024
+Mon Jun 10 14:51:35 2024
 Quartus Prime Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
 
 
@@ -25,10 +25,12 @@ Quartus Prime Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
  17. Parameter Settings for User Entity Instance: shuffle_fsm:shuffle_fsm_inst
  18. altsyncram Parameter Settings by Entity Instance
  19. Port Connectivity Checks: "to_RAM_mux:to_RAM_mux_inst"
- 20. In-System Memory Content Editor Settings
- 21. Post-Synthesis Netlist Statistics for Top Partition
- 22. Elapsed Time Per Partition
- 23. Analysis & Synthesis Messages
+ 20. Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst"
+ 21. Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst"
+ 22. In-System Memory Content Editor Settings
+ 23. Post-Synthesis Netlist Statistics for Top Partition
+ 24. Elapsed Time Per Partition
+ 25. Analysis & Synthesis Messages
 
 
 
@@ -55,7 +57,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Jun 10 14:05:15 2024       ;
+; Analysis & Synthesis Status     ; Successful - Mon Jun 10 14:51:35 2024       ;
 ; Quartus Prime Version           ; 16.1.2 Build 203 01/18/2017 SJ Lite Edition ;
 ; Revision Name                   ; rc4                                         ;
 ; Top-level Entity Name           ; ksa_top                                     ;
@@ -199,6 +201,7 @@ agreement for further details.
 ; initialize_fsm.sv                                                  ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/initialize_fsm.sv                                                  ;             ;
 ; shuffle_fsm.sv                                                     ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv                                                     ;             ;
 ; to_RAM_mux.sv                                                      ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/to_RAM_mux.sv                                                      ;             ;
+; secret_key_mux.sv                                                  ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/secret_key_mux.sv                                                  ;             ;
 ; altsyncram.tdf                                                     ; yes             ; Megafunction                                 ; c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/altsyncram.tdf                                                  ;             ;
 ; stratix_ram_block.inc                                              ; yes             ; Megafunction                                 ; c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                           ;             ;
 ; lpm_mux.inc                                                        ; yes             ; Megafunction                                 ; c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/lpm_mux.inc                                                     ;             ;
@@ -482,6 +485,25 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------+-------+----------+-----------------------+
 
 
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst"                                                                                                                 ;
++------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                                                                                                                          ;
++------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; sel  ; Input  ; Warning  ; Input port expression (8 bits) is wider than the input port (2 bits) it drives.  The 6 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; key  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                                                              ;
++------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------+
+; Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst" ;
++--------------------+-------+----------+------------------+
+; Port               ; Type  ; Severity ; Details          ;
++--------------------+-------+----------+------------------+
+; secret_key[23..10] ; Input ; Info     ; Stuck at GND     ;
++--------------------+-------+----------+------------------+
+
+
 +--------------------------------------------------------------------------------------------------------------------------------------------+
 ; In-System Memory Content Editor Settings                                                                                                   ;
 +----------------+-------------+-------+-------+------------+--------------------------------------------------------------------------------+
@@ -540,7 +562,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
-    Info: Processing started: Mon Jun 10 14:04:46 2024
+    Info: Processing started: Mon Jun 10 14:51:05 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off rc4 -c rc4
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -559,9 +581,11 @@ Info (12021): Found 1 design units, including 1 entities, in source file shuffle
     Info (12023): Found entity 1: shuffle_fsm File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file to_ram_mux.sv
     Info (12023): Found entity 1: to_RAM_mux File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/to_RAM_mux.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file secret_key_mux.sv
+    Info (12023): Found entity 1: secret_key_mux File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/secret_key_mux.sv Line: 1
 Info (12127): Elaborating entity "ksa_top" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(43): object "counter_i" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 43
-Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(45): object "counter_j" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 45
+Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(45): object "counter_i" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 45
+Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(47): object "counter_j" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 47
 Warning (10034): Output port "LEDR" at ksa_top.sv(5) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 5
 Warning (10034): Output port "HEX0" at ksa_top.sv(6) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 6
 Warning (10034): Output port "HEX1" at ksa_top.sv(7) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 7
@@ -569,7 +593,7 @@ Warning (10034): Output port "HEX2" at ksa_top.sv(8) has no driver File: C:/inte
 Warning (10034): Output port "HEX3" at ksa_top.sv(9) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 9
 Warning (10034): Output port "HEX4" at ksa_top.sv(10) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 10
 Warning (10034): Output port "HEX5" at ksa_top.sv(12) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 12
-Info (12128): Elaborating entity "s_memory" for hierarchy "s_memory:my_mem" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 56
+Info (12128): Elaborating entity "s_memory" for hierarchy "s_memory:my_mem" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 57
 Info (12128): Elaborating entity "altsyncram" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory.v Line: 89
 Info (12130): Elaborated megafunction instantiation "s_memory:my_mem|altsyncram:altsyncram_component" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory.v Line: 89
 Info (12133): Instantiated megafunction "s_memory:my_mem|altsyncram:altsyncram_component" with the following parameter: File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory.v Line: 89
@@ -608,15 +632,18 @@ Info (12133): Instantiated megafunction "s_memory:my_mem|altsyncram:altsyncram_c
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter" File: c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 302
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter_impl" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst" File: c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd Line: 232
 Info (12128): Elaborating entity "sld_rom_sr" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr" File: c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 828
-Info (12128): Elaborating entity "initialize_fsm" for hierarchy "initialize_fsm:initialize_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 67
+Info (12128): Elaborating entity "initialize_fsm" for hierarchy "initialize_fsm:initialize_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 68
 Warning (10230): Verilog HDL assignment warning at initialize_fsm.sv(21): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/initialize_fsm.sv Line: 21
 Warning (10230): Verilog HDL assignment warning at initialize_fsm.sv(22): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/initialize_fsm.sv Line: 22
-Info (12128): Elaborating entity "shuffle_fsm" for hierarchy "shuffle_fsm:shuffle_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 79
-Warning (10036): Verilog HDL or VHDL warning at shuffle_fsm.sv(13): object "temp_reg" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 13
-Warning (10230): Verilog HDL assignment warning at shuffle_fsm.sv(44): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 44
-Info (12128): Elaborating entity "to_RAM_mux" for hierarchy "to_RAM_mux:to_RAM_mux_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 95
+Info (12128): Elaborating entity "shuffle_fsm" for hierarchy "shuffle_fsm:shuffle_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 81
+Warning (10036): Verilog HDL or VHDL warning at shuffle_fsm.sv(14): object "temp_reg" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 14
+Warning (10036): Verilog HDL or VHDL warning at shuffle_fsm.sv(16): object "counter_j" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 16
+Warning (10230): Verilog HDL assignment warning at shuffle_fsm.sv(55): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 55
+Warning (10230): Verilog HDL assignment warning at shuffle_fsm.sv(59): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 59
+Info (12128): Elaborating entity "secret_key_mux" for hierarchy "shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 31
+Info (12128): Elaborating entity "to_RAM_mux" for hierarchy "to_RAM_mux:to_RAM_mux_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 97
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2024.06.10.14:05:03 Progress: Loading sld73f98f60/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2024.06.10.14:51:23 Progress: Loading sld73f98f60/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -639,6 +666,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file db/ip/s
     Info (12023): Found entity 1: alt_sld_fab_alt_sld_fab_sldfabric File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/db/ip/sld73f98f60/submodules/alt_sld_fab_alt_sld_fab_sldfabric.vhd Line: 11
 Info (12021): Found 1 design units, including 1 entities, in source file db/ip/sld73f98f60/submodules/alt_sld_fab_alt_sld_fab_splitter.sv
     Info (12023): Found entity 1: alt_sld_fab_alt_sld_fab_splitter File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/db/ip/sld73f98f60/submodules/alt_sld_fab_alt_sld_fab_splitter.sv Line: 3
+Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDR[0]" is stuck at GND File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 5
     Warning (13410): Pin "LEDR[1]" is stuck at GND File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 5
@@ -696,17 +724,17 @@ Info (286031): Timing-Driven Synthesis is running on partition "Top"
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 9 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (15752): Ignored 12 Virtual Pin logic option assignments
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[7]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_ON".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[4]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[5]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[3]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[2]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_RS".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[1]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[0]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[3]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_RS".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[4]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[6]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[5]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_EN".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[7]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_RW".
 Warning (21074): Design contains 13 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[0]" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 3
@@ -727,10 +755,10 @@ Info (21057): Implemented 302 device resources after synthesis - the final resou
     Info (21059): Implemented 53 output pins
     Info (21061): Implemented 222 logic cells
     Info (21064): Implemented 8 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 94 warnings
-    Info: Peak virtual memory: 4879 megabytes
-    Info: Processing ended: Mon Jun 10 14:05:15 2024
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:27
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 97 warnings
+    Info: Peak virtual memory: 4874 megabytes
+    Info: Processing ended: Mon Jun 10 14:51:35 2024
+    Info: Elapsed time: 00:00:30
+    Info: Total CPU time (on all processors): 00:00:31
 
 
