@@ -23,6 +23,10 @@ module initialize_fsm(
 				rden <= 1'b0;
 			end else begin
 				not_complete <= 1'b1;
+				wren <= 1'b0; 
+				rden <= 1'b0;
+				address <= 8'd0;
+				data <= 8'd0;
 			end
 		end
 	end
