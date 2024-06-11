@@ -1,5 +1,5 @@
 Analysis & Synthesis report for rc4
-Mon Jun 10 17:28:34 2024
+Tue Jun 11 11:01:29 2024
 Quartus Prime Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
 
 
@@ -23,16 +23,17 @@ Quartus Prime Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
  15. Source assignments for s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|altsyncram_1qp2:altsyncram1
  16. Parameter Settings for User Entity Instance: s_memory:my_mem|altsyncram:altsyncram_component
  17. Parameter Settings for User Entity Instance: shuffle_fsm:shuffle_fsm_inst
- 18. Parameter Settings for Inferred Entity Instance: shuffle_fsm:shuffle_fsm_inst|lpm_divide:Mod0
- 19. altsyncram Parameter Settings by Entity Instance
- 20. Port Connectivity Checks: "to_RAM_mux:to_RAM_mux_inst"
- 21. Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst"
- 22. Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst"
- 23. In-System Memory Content Editor Settings
- 24. Post-Synthesis Netlist Statistics for Top Partition
- 25. Elapsed Time Per Partition
- 26. Analysis & Synthesis Messages
- 27. Analysis & Synthesis Suppressed Messages
+ 18. Parameter Settings for User Entity Instance: decrypt_fsm:decrypt_fsm_inst
+ 19. Parameter Settings for Inferred Entity Instance: shuffle_fsm:shuffle_fsm_inst|lpm_divide:Mod0
+ 20. altsyncram Parameter Settings by Entity Instance
+ 21. Port Connectivity Checks: "to_RAM_mux:to_RAM_mux_inst"
+ 22. Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst"
+ 23. Port Connectivity Checks: "shuffle_fsm:shuffle_fsm_inst"
+ 24. In-System Memory Content Editor Settings
+ 25. Post-Synthesis Netlist Statistics for Top Partition
+ 26. Elapsed Time Per Partition
+ 27. Analysis & Synthesis Messages
+ 28. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -59,13 +60,13 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Jun 10 17:28:34 2024       ;
+; Analysis & Synthesis Status     ; Successful - Tue Jun 11 11:01:29 2024       ;
 ; Quartus Prime Version           ; 16.1.2 Build 203 01/18/2017 SJ Lite Edition ;
 ; Revision Name                   ; rc4                                         ;
 ; Top-level Entity Name           ; ksa_top                                     ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 190                                         ;
+; Total registers                 ; 203                                         ;
 ; Total pins                      ; 67                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 2,048                                       ;
@@ -204,6 +205,7 @@ agreement for further details.
 ; shuffle_fsm.sv                                                     ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv                                                     ;             ;
 ; to_RAM_mux.sv                                                      ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/to_RAM_mux.sv                                                      ;             ;
 ; secret_key_mux.sv                                                  ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/secret_key_mux.sv                                                  ;             ;
+; decrypt_fsm.sv                                                     ; yes             ; User SystemVerilog HDL File                  ; C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv                                                     ;             ;
 ; altsyncram.tdf                                                     ; yes             ; Megafunction                                 ; c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/altsyncram.tdf                                                  ;             ;
 ; stratix_ram_block.inc                                              ; yes             ; Megafunction                                 ; c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                           ;             ;
 ; lpm_mux.inc                                                        ; yes             ; Megafunction                                 ; c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/lpm_mux.inc                                                     ;             ;
@@ -241,16 +243,16 @@ agreement for further details.
 +---------------------------------------------+--------------------------+
 ; Resource                                    ; Usage                    ;
 +---------------------------------------------+--------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 163                      ;
+; Estimate of Logic utilization (ALMs needed) ; 177                      ;
 ;                                             ;                          ;
-; Combinational ALUT usage for logic          ; 272                      ;
+; Combinational ALUT usage for logic          ; 293                      ;
 ;     -- 7 input functions                    ; 1                        ;
-;     -- 6 input functions                    ; 30                       ;
-;     -- 5 input functions                    ; 48                       ;
-;     -- 4 input functions                    ; 56                       ;
-;     -- <=3 input functions                  ; 137                      ;
+;     -- 6 input functions                    ; 38                       ;
+;     -- 5 input functions                    ; 58                       ;
+;     -- 4 input functions                    ; 52                       ;
+;     -- <=3 input functions                  ; 144                      ;
 ;                                             ;                          ;
-; Dedicated logic registers                   ; 190                      ;
+; Dedicated logic registers                   ; 203                      ;
 ;                                             ;                          ;
 ; I/O pins                                    ; 67                       ;
 ; Total MLAB memory bits                      ; 0                        ;
@@ -260,8 +262,8 @@ agreement for further details.
 ;                                             ;                          ;
 ; Maximum fan-out node                        ; altera_internal_jtag~TDO ;
 ; Maximum fan-out                             ; 156                      ;
-; Total fan-out                               ; 1920                     ;
-; Average fan-out                             ; 3.13                     ;
+; Total fan-out                               ; 2053                     ;
+; Average fan-out                             ; 3.17                     ;
 +---------------------------------------------+--------------------------+
 
 
@@ -270,7 +272,8 @@ agreement for further details.
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                                                              ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                 ; Entity Name                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
-; |ksa_top                                                                                                                                ; 272 (1)             ; 190 (0)                   ; 2048              ; 0          ; 67   ; 0            ; |ksa_top                                                                                                                                                                                                                                                                                                                                            ; ksa_top                           ; work         ;
+; |ksa_top                                                                                                                                ; 293 (1)             ; 203 (0)                   ; 2048              ; 0          ; 67   ; 0            ; |ksa_top                                                                                                                                                                                                                                                                                                                                            ; ksa_top                           ; work         ;
+;    |decrypt_fsm:decrypt_fsm_inst|                                                                                                       ; 21 (21)             ; 13 (13)                   ; 0                 ; 0          ; 0    ; 0            ; |ksa_top|decrypt_fsm:decrypt_fsm_inst                                                                                                                                                                                                                                                                                                               ; decrypt_fsm                       ; work         ;
 ;    |initialize_fsm:initialize_fsm_inst|                                                                                                 ; 11 (11)             ; 10 (10)                   ; 0                 ; 0          ; 0    ; 0            ; |ksa_top|initialize_fsm:initialize_fsm_inst                                                                                                                                                                                                                                                                                                         ; initialize_fsm                    ; work         ;
 ;    |s_memory:my_mem|                                                                                                                    ; 41 (0)              ; 37 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |ksa_top|s_memory:my_mem                                                                                                                                                                                                                                                                                                                            ; s_memory                          ; work         ;
 ;       |altsyncram:altsyncram_component|                                                                                                 ; 41 (0)              ; 37 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                            ; altsyncram                        ; work         ;
@@ -325,7 +328,10 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------+
 ; Register name                                                                                                                           ; Reason for Removal                                        ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------+
+; decrypt_fsm:decrypt_fsm_inst|state[4..24]                                                                                               ; Stuck at GND due to stuck port data_in                    ;
 ; initialize_fsm:initialize_fsm_inst|rden                                                                                                 ; Stuck at GND due to stuck port data_in                    ;
+; decrypt_fsm:decrypt_fsm_inst|data[1..7]                                                                                                 ; Merged with decrypt_fsm:decrypt_fsm_inst|data[0]          ;
+; decrypt_fsm:decrypt_fsm_inst|not_complete                                                                                               ; Merged with decrypt_fsm:decrypt_fsm_inst|data[0]          ;
 ; initialize_fsm:initialize_fsm_inst|data[0]                                                                                              ; Merged with initialize_fsm:initialize_fsm_inst|address[0] ;
 ; initialize_fsm:initialize_fsm_inst|data[1]                                                                                              ; Merged with initialize_fsm:initialize_fsm_inst|address[1] ;
 ; initialize_fsm:initialize_fsm_inst|data[2]                                                                                              ; Merged with initialize_fsm:initialize_fsm_inst|address[2] ;
@@ -334,8 +340,10 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; initialize_fsm:initialize_fsm_inst|data[5]                                                                                              ; Merged with initialize_fsm:initialize_fsm_inst|address[5] ;
 ; initialize_fsm:initialize_fsm_inst|data[6]                                                                                              ; Merged with initialize_fsm:initialize_fsm_inst|address[6] ;
 ; initialize_fsm:initialize_fsm_inst|data[7]                                                                                              ; Merged with initialize_fsm:initialize_fsm_inst|address[7] ;
+; decrypt_fsm:decrypt_fsm_inst|data[0]                                                                                                    ; Stuck at GND due to stuck port data_in                    ;
+; decrypt_fsm:decrypt_fsm_inst|wren                                                                                                       ; Stuck at GND due to stuck port data_in                    ;
 ; s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_shift_cntr_reg[3] ; Stuck at GND due to stuck port data_in                    ;
-; Total Number of Removed Registers = 10                                                                                                  ;                                                           ;
+; Total Number of Removed Registers = 41                                                                                                  ;                                                           ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------+
 
 
@@ -344,10 +352,10 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 190   ;
-; Number of registers using Synchronous Clear  ; 32    ;
-; Number of registers using Synchronous Load   ; 25    ;
-; Number of registers using Asynchronous Clear ; 104   ;
+; Total registers                              ; 203   ;
+; Number of registers using Synchronous Clear  ; 40    ;
+; Number of registers using Synchronous Load   ; 26    ;
+; Number of registers using Asynchronous Clear ; 108   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
 ; Number of registers using Clock Enable       ; 142   ;
 ; Number of registers using Preset             ; 0     ;
@@ -373,13 +381,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                                                                                           ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_reg[1]                                                ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_shift_cntr_reg[3]                                     ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_addr_reg[0]                                                ;
-; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|word_counter[1] ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_shift_cntr_reg[0]                                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_addr_reg[7]                                                ;
+; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|word_counter[0] ;
 ; 16:1               ; 8 bits    ; 80 LEs        ; 0 LEs                ; 80 LEs                 ; Yes        ; |ksa_top|shuffle_fsm:shuffle_fsm_inst|data[0]                                                                                                                                        ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 16 LEs               ; 64 LEs                 ; Yes        ; |ksa_top|shuffle_fsm:shuffle_fsm_inst|address[3]                                                                                                                                     ;
-; 26:1               ; 4 bits    ; 68 LEs        ; 40 LEs               ; 28 LEs                 ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|WORD_SR[3]      ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 16 LEs               ; 64 LEs                 ; Yes        ; |ksa_top|shuffle_fsm:shuffle_fsm_inst|address[1]                                                                                                                                     ;
+; 26:1               ; 4 bits    ; 68 LEs        ; 40 LEs               ; 28 LEs                 ; Yes        ; |ksa_top|s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|WORD_SR[0]      ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |ksa_top|shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst|Mux6                                                                                                        ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |ksa_top|to_RAM_mux:to_RAM_mux_inst|Selector12                                                                                                                                       ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
@@ -476,6 +485,24 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: decrypt_fsm:decrypt_fsm_inst ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; INITIALIZE     ; 00000 ; Unsigned Binary                                  ;
+; INCREMENT      ; 00001 ; Unsigned Binary                                  ;
+; READ_SI        ; 00010 ; Unsigned Binary                                  ;
+; WAIT_FOR_SI    ; 00011 ; Unsigned Binary                                  ;
+; COMPUTE_J      ; 00100 ; Unsigned Binary                                  ;
+; READ_SJ        ; 00101 ; Unsigned Binary                                  ;
+; WAIT_FOR_SJ    ; 00110 ; Unsigned Binary                                  ;
+; WRITE_SJ       ; 00111 ; Unsigned Binary                                  ;
+; WRITE_SI       ; 01000 ; Unsigned Binary                                  ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +-----------------------------------------------------------------------------------------------+
 ; Parameter Settings for Inferred Entity Instance: shuffle_fsm:shuffle_fsm_inst|lpm_divide:Mod0 ;
 +------------------------+----------------+-----------------------------------------------------+
@@ -524,7 +551,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------+-------+----------+-----------------------+
 ; Port        ; Type  ; Severity ; Details               ;
 +-------------+-------+----------+-----------------------+
-; state[9..2] ; Input ; Info     ; Stuck at GND          ;
+; state[9..3] ; Input ; Info     ; Stuck at GND          ;
 +-------------+-------+----------+-----------------------+
 
 
@@ -560,8 +587,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 103                         ;
-;     CLR               ; 13                          ;
+; arriav_ff             ; 116                         ;
+;     CLR               ; 17                          ;
 ;     CLR SCLR          ; 8                           ;
 ;     ENA               ; 25                          ;
 ;     ENA CLR           ; 24                          ;
@@ -569,30 +596,32 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA CLR SCLR SLD  ; 8                           ;
 ;     ENA CLR SLD       ; 8                           ;
 ;     ENA SLD           ; 8                           ;
-; arriav_lcell_comb     ; 174                         ;
-;     arith             ; 63                          ;
+;     SCLR              ; 8                           ;
+;     SLD               ; 1                           ;
+; arriav_lcell_comb     ; 195                         ;
+;     arith             ; 71                          ;
 ;         0 data inputs ; 8                           ;
-;         1 data inputs ; 40                          ;
+;         1 data inputs ; 48                          ;
 ;         2 data inputs ; 1                           ;
 ;         3 data inputs ; 8                           ;
 ;         4 data inputs ; 6                           ;
 ;     extend            ; 1                           ;
 ;         7 data inputs ; 1                           ;
-;     normal            ; 102                         ;
+;     normal            ; 115                         ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 1                           ;
 ;         2 data inputs ; 16                          ;
-;         3 data inputs ; 6                           ;
-;         4 data inputs ; 35                          ;
-;         5 data inputs ; 28                          ;
-;         6 data inputs ; 15                          ;
+;         3 data inputs ; 5                           ;
+;         4 data inputs ; 31                          ;
+;         5 data inputs ; 38                          ;
+;         6 data inputs ; 23                          ;
 ;     shared            ; 8                           ;
 ;         3 data inputs ; 8                           ;
 ; boundary_port         ; 94                          ;
 ; stratixv_ram_block    ; 8                           ;
 ;                       ;                             ;
 ; Max LUT depth         ; 13.30                       ;
-; Average LUT depth     ; 4.18                        ;
+; Average LUT depth     ; 3.97                        ;
 +-----------------------+-----------------------------+
 
 
@@ -601,7 +630,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:00     ;
 +----------------+--------------+
 
 
@@ -611,7 +640,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
-    Info: Processing started: Mon Jun 10 17:28:01 2024
+    Info: Processing started: Tue Jun 11 11:00:55 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off rc4 -c rc4
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -632,9 +661,11 @@ Info (12021): Found 1 design units, including 1 entities, in source file to_ram_
     Info (12023): Found entity 1: to_RAM_mux File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/to_RAM_mux.sv Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file secret_key_mux.sv
     Info (12023): Found entity 1: secret_key_mux File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/secret_key_mux.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file decrypt_fsm.sv
+    Info (12023): Found entity 1: decrypt_fsm File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv Line: 1
 Info (12127): Elaborating entity "ksa_top" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(45): object "counter_i" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 45
-Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(47): object "counter_j" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 47
+Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(51): object "counter_i" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 51
+Warning (10036): Verilog HDL or VHDL warning at ksa_top.sv(53): object "counter_j" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 53
 Warning (10034): Output port "LEDR" at ksa_top.sv(5) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 5
 Warning (10034): Output port "HEX0" at ksa_top.sv(6) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 6
 Warning (10034): Output port "HEX1" at ksa_top.sv(7) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 7
@@ -642,7 +673,7 @@ Warning (10034): Output port "HEX2" at ksa_top.sv(8) has no driver File: C:/inte
 Warning (10034): Output port "HEX3" at ksa_top.sv(9) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 9
 Warning (10034): Output port "HEX4" at ksa_top.sv(10) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 10
 Warning (10034): Output port "HEX5" at ksa_top.sv(12) has no driver File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 12
-Info (12128): Elaborating entity "s_memory" for hierarchy "s_memory:my_mem" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 57
+Info (12128): Elaborating entity "s_memory" for hierarchy "s_memory:my_mem" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 63
 Info (12128): Elaborating entity "altsyncram" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory.v Line: 89
 Info (12130): Elaborated megafunction instantiation "s_memory:my_mem|altsyncram:altsyncram_component" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory.v Line: 89
 Info (12133): Instantiated megafunction "s_memory:my_mem|altsyncram:altsyncram_component" with the following parameter: File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/s_memory.v Line: 89
@@ -681,18 +712,23 @@ Info (12133): Instantiated megafunction "s_memory:my_mem|altsyncram:altsyncram_c
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter" File: c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 302
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter_impl" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst" File: c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd Line: 232
 Info (12128): Elaborating entity "sld_rom_sr" for hierarchy "s_memory:my_mem|altsyncram:altsyncram_component|altsyncram_ma32:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr" File: c:/intelfpga_lite/16.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 828
-Info (12128): Elaborating entity "initialize_fsm" for hierarchy "initialize_fsm:initialize_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 68
+Info (12128): Elaborating entity "initialize_fsm" for hierarchy "initialize_fsm:initialize_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 74
 Warning (10230): Verilog HDL assignment warning at initialize_fsm.sv(21): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/initialize_fsm.sv Line: 21
 Warning (10230): Verilog HDL assignment warning at initialize_fsm.sv(22): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/initialize_fsm.sv Line: 22
-Info (12128): Elaborating entity "shuffle_fsm" for hierarchy "shuffle_fsm:shuffle_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 81
+Info (12128): Elaborating entity "shuffle_fsm" for hierarchy "shuffle_fsm:shuffle_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 87
 Warning (10036): Verilog HDL or VHDL warning at shuffle_fsm.sv(37): object "temp_addr" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 37
 Warning (10230): Verilog HDL assignment warning at shuffle_fsm.sv(88): truncated value with size 9 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 88
 Warning (10230): Verilog HDL assignment warning at shuffle_fsm.sv(97): truncated value with size 32 to match size of target (9) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 97
 Warning (10230): Verilog HDL assignment warning at shuffle_fsm.sv(98): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 98
 Info (12128): Elaborating entity "secret_key_mux" for hierarchy "shuffle_fsm:shuffle_fsm_inst|secret_key_mux:secret_key_mux_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 42
-Info (12128): Elaborating entity "to_RAM_mux" for hierarchy "to_RAM_mux:to_RAM_mux_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 97
+Info (12128): Elaborating entity "decrypt_fsm" for hierarchy "decrypt_fsm:decrypt_fsm_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 100
+Warning (10036): Verilog HDL or VHDL warning at decrypt_fsm.sv(37): object "counter_j" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv Line: 37
+Warning (10036): Verilog HDL or VHDL warning at decrypt_fsm.sv(39): object "temp_reg_i" assigned a value but never read File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv Line: 39
+Warning (10230): Verilog HDL assignment warning at decrypt_fsm.sv(66): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv Line: 66
+Warning (10230): Verilog HDL assignment warning at decrypt_fsm.sv(69): truncated value with size 32 to match size of target (8) File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv Line: 69
+Info (12128): Elaborating entity "to_RAM_mux" for hierarchy "to_RAM_mux:to_RAM_mux_inst" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 121
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2024.06.10.17:28:20 Progress: Loading sld73f98f60/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2024.06.11.11:01:15 Progress: Loading sld73f98f60/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -788,32 +824,32 @@ Info (144001): Generated suppressed messages file C:/intelFPGA_lite/16.1/project
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 9 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (15752): Ignored 12 Virtual Pin logic option assignments
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[3]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_EN".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_ON".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[1]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[6]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[2]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_RS".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[7]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[0]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[4]".
-    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[5]".
     Warning (15751): Ignored Virtual Pin assignment to "LCD_RW".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[4]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[1]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[3]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[5]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_ON".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[0]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_EN".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[2]".
+    Warning (15751): Ignored Virtual Pin assignment to "LCD_DATA[6]".
 Warning (21074): Design contains 3 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[0]" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 3
     Warning (15610): No output dependent on input pin "KEY[1]" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 3
     Warning (15610): No output dependent on input pin "KEY[2]" File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/ksa_top.sv Line: 3
-Info (21057): Implemented 421 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 442 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 18 input pins
     Info (21059): Implemented 53 output pins
-    Info (21061): Implemented 341 logic cells
+    Info (21061): Implemented 362 logic cells
     Info (21064): Implemented 8 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 87 warnings
-    Info: Peak virtual memory: 4888 megabytes
-    Info: Processing ended: Mon Jun 10 17:28:34 2024
-    Info: Elapsed time: 00:00:33
-    Info: Total CPU time (on all processors): 00:00:23
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 91 warnings
+    Info: Peak virtual memory: 4890 megabytes
+    Info: Processing ended: Tue Jun 11 11:01:29 2024
+    Info: Elapsed time: 00:00:34
+    Info: Total CPU time (on all processors): 00:00:28
 
 
 +------------------------------------------+

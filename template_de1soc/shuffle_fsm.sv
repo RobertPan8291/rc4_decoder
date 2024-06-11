@@ -70,7 +70,7 @@ module shuffle_fsm(
 								counter_j <= counter_j + temp_reg + secret_key_output;
 							  end
 				READ_J: begin
-								address <= counter_j; 
+								address <= counter_j; //extract s[j] before we overwrite it
 						  end
 				//WAIT_J: begin
 						  		//temp_reg_j <= q;
@@ -79,7 +79,7 @@ module shuffle_fsm(
 				//WAIT_J_2: begin
 							 //end
 				WRITE_TO_J: begin
-									temp_reg_j <= q;
+									temp_reg_j <= q; //storing s[j] in a temporary reg
 									wren <= 1'b1;
 									rden <= 1'd0;
 									data <= temp_reg; //writing s[i] to s[j]

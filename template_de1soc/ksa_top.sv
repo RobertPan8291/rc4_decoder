@@ -35,8 +35,14 @@ module ksa_top(
 	logic [7:0] address_2; 
 	logic rden_2; //read enable;
 	
+	logic [7:0] data_3; 
+	logic wren_3; //write enable;
+	logic [7:0] address_3; 
+	logic rden_3; //read enable;
+	
 	logic initalize_not_complete;
 	logic shuffle_not_complete;
+	logic decrypt_not_complete;
 	
 	logic [23:0] secret_key;
 	
@@ -80,6 +86,20 @@ module ksa_top(
 		.not_complete(shuffle_not_complete)
 		);
 		
+	decrypt_fsm decrypt_fsm_inst(
+		.clk(clk),
+		.reset(reset_n),
+		.start(shuffle_not_complete),
+		.q(q),
+		.secret_key(secret_key),
+		.data(data_3),
+		.address(address_3),
+		.wren(wren_3),
+		.rden(rden_3),
+		.not_complete(decrypt_not_complete)
+		);
+		
+		
 	to_RAM_mux to_RAM_mux_inst(
 		.data_1(data_1),
 		.address_1(address_1),
@@ -89,7 +109,11 @@ module ksa_top(
 		.address_2(address_2),
 		.wren_2(wren_2),
 		.rden_2(rden_2),
-		.state({8'b0, shuffle_not_complete, initalize_not_complete}),
+		.data_3(data_3),
+		.address_3(address_3),
+		.wren_3(wren_3),
+		.rden_3(rden_3),
+		.state({7'b0, decrypt_not_complete, shuffle_not_complete, initalize_not_complete}),
 		.data(data),
 		.wren(wren),
 		.address(address),

@@ -1,0 +1,67 @@
+module decrypt_fsm(
+	input clk,
+	input reset, 
+	input start,
+	input [7:0] q,
+	input [23:0] secret_key,
+	output logic [7:0] data,
+   output logic [7:0] address,
+	output logic rden,
+	output logic wren,
+	output logic not_complete	
+	); 
+	
+	parameter [24:0] INITIALIZE = 25'd1,
+						  INCREMENT = 25'd2,
+						  READ_SI = 25'd4,
+						  WAIT_FOR_SI = 25'd8,
+						  COMPUTE_J = 25'd16,
+						  READ_SJ = 25'd32,
+						  WAIT_FOR_SJ = 25'd64, 
+						  WRITE_SJ = 25'd128,
+						  WRITE_SI = 25'd256; 
+						 
+	logic [7:0] counter_k; 
+
+
+	logic [24:0] state = INITIALIZE; 
+	
+	always_comb begin
+		if(state[0]) begin //Initialize state
+			rden = 1'b0; 
+			wren = 1'b0; 
+			not_complete = 1'b0;
+			data = 8'd0;
+			address = 8'd0;
+		end
+	
+	end
+	
+	
+	
+	always_ff@(posedge clk or negedge reset) begin
+		if(~reset) begin
+			state <= INITIALIZE;
+		end else begin
+			case(state)
+				INITIALIZE: begin
+									if(start)
+										state <= SHUFFLE;
+									else
+										state <= INITIALIZE;
+								end
+				INCREMENT: state <= READ_SI;
+				READ_SI: state <= WAIT_FOR_SI; 
+				WAIT_FOR_SI: state <= COMPUTE_J;
+				COMPUTE_J: state <= READ_SJ;
+				WAIT_FOR_SJ: state <= WRITE_SJ;
+				WRITE_SJ: state <= WRITE_SI;
+				WRITE_SI: state <= INCREMENT;
+			endcase
+		
+		
+		end
+	end
+	
+
+endmodule
