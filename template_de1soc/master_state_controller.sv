@@ -5,7 +5,7 @@ module master_state_controller(
 	output logic stop
 	);
 	
-	parameter [3:0] IDLE = 4'b0000;
+	parameter [3:0] IDLE = 4'b0000,
 						 STOP = 4'b0001;
 					
 					

@@ -37,6 +37,7 @@ module shuffle_fsm(
    logic [3:0] state = INITIALIZE;
 	
 	logic [7:0] temp_addr;
+	
 	secret_key_mux secret_key_mux_inst(
 		.secret_key(secret_key),
 		.sel(counter_i % 2'd3),

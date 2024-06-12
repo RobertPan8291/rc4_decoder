@@ -61,7 +61,7 @@ module core2(
 		.clk(clk),
 		.reset(reset_n),
 		.failure(failure),
-		.total_failure(total_failure);
+		.total_failure(total_failure),
 		.success(success),
 		.reset_all(reset_all),
 		.secret_key(secret_key),

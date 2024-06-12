@@ -18,68 +18,34 @@ module ksa_top(
 	assign clk = CLOCK_50;
 	assign reset_n = KEY[3];
 	
-	logic [7:0] data; 
-	logic wren; //write enable;
-	logic [7:0] address; 
-	logic [7:0] q;
-	logic rden; //read enable;
+	logic stop;
 	
-		
-	logic [7:0] data_1; 
-	logic wren_1; //write enable;
-	logic [7:0] address_1; 
-	logic rden_1; //read enable;
+	logic total_failure_1;
+	logic success_1;
+	logic [23:0] secret_key_1;
 	
-	logic [7:0] data_2; 
-	logic wren_2; //write enable;
-	logic [7:0] address_2; 
-	logic rden_2; //read enable;
+	logic total_failure_2;
+	logic success_2;
+	logic [23:0] secret_key_2;
 	
-	logic [7:0] data_3; 
-	logic wren_3; //write enable;
-	logic [7:0] address_3; 
-	logic rden_3; //read enable;
+	logic total_failure_3;
+	logic success_3;
+	logic [23:0] secret_key_3;
 	
-	logic initalize_not_complete;
-	logic shuffle_not_complete;
-	logic decrypt_not_complete;
-	
-	logic [4:0] ROM_address;
-	logic ROM_rden;
-	logic [7:0] ROM_output;
-	
-	logic [7:0] decrypt_message;
-	logic Decode_wren;
-	logic [4:0] Decode_adddress;
-	
-	logic [7:0] Decode_q;
+	logic total_failure_4;
+	logic success_4;
+	logic [23:0] secret_key_4;
 	
 	logic [23:0] secret_key;
-	logic failure;
-	logic success;
-	logic reset_all;
 	
-	logic stop;
+	logic success; 
+	
+	assign success = success_1 || success_2 || success_3 || success_4;
+	
+	logic failure; 
+	
+	assign failure = total_failure_1 && total_failure_2 && total_failure_3 && total_failure_4;
 
-	
-	s_memory my_mem(
-		.data(data),
-		.wren(wren),
-		.address(address),
-		.q(q),
-		.clock(clk),
-		.rden(rden)
-	); 
-	
-	key_controller key_controller_inst(
-		.clk(clk),
-		.reset(reset_n),
-		.failure(failure),
-		.success(success),
-		.reset_all(reset_all),
-		.secret_key(secret_key),
-		.LEDR(LEDR)
-		);
 	
 	SevenSegmentDisplayDecoder display1(
 		.nIn(secret_key[3:0]),
@@ -112,92 +78,64 @@ module ksa_top(
 	);
 
 	
-	Encode_ROM my_ROM(
-		.address(ROM_address),
-		.rden(ROM_rden),
-		.clock(clk),
-		.q(ROM_output)
-		);
-
-	Decoded_RAM Decoded_RAM_inst(
-		.data(decrypt_message),
-		.wren(Decode_wren),
-		.address(Decode_adddress),
-		.clock(clk),
-		.q(Decode_q)
-		);
+	core1 core1_inst(
+		.clk(clk),
+		.reset_n(reset_n),
+		.stop(stop),
+		.total_failure(total_failure_1),
+		.success(success_1),
+		.secret_key(secret_key_1)
+	);
 	
-	initialize_fsm initialize_fsm_inst(
+	core2 core2_inst(
 		.clk(clk),
-		.reset(reset_all),
+		.reset_n(reset_n),
 		.stop(stop),
-		.data(data_1),
-		.address(address_1),
-		.wren(wren_1),
-		.rden(rden_1),
-		.not_complete(initalize_not_complete)
-		); 
-		
-	shuffle_fsm shuffle_fsm_inst(
+		.total_failure(total_failure_2),
+		.success(success_2),
+		.secret_key(secret_key_2)
+	);
+	
+	core3 core3_inst(
 		.clk(clk),
-		.reset(reset_all),
-		.start(initalize_not_complete),
+		.reset_n(reset_n),
 		.stop(stop),
-		.q(q),
-		.secret_key(secret_key),
-		.data(data_2),
-		.address(address_2),
-		.wren(wren_2),
-		.rden(rden_2),
-		.not_complete(shuffle_not_complete)
-		);
-		
-	decrypt_fsm decrypt_fsm_inst(
+		.total_failure(total_failure_3),
+		.success(success_3),
+		.secret_key(secret_key_3)
+	);
+	
+	core4 core4_inst(
 		.clk(clk),
-		.reset(reset_all),
-		.start(shuffle_not_complete),
+		.reset_n(reset_n),
 		.stop(stop),
-		.q(q),
-		.ROM_output(ROM_output),
-		.secret_key(secret_key),
-		.data(data_3),
-		.decrypt_message(decrypt_message),
-		.ROM_address(ROM_address),
-		.Decode_adddress(Decode_adddress),
-		.address(address_3),
-		.wren(wren_3),
-		.Decode_wren(Decode_wren),
-		.rden(rden_3),
-		.ROM_rden(ROM_rden),
-		.not_complete(decrypt_not_complete),
-		.failure(failure),
-		.success(success)
-		);
-		
-		
-		
-		
-	to_RAM_mux to_RAM_mux_inst(
-		.data_1(data_1),
-		.address_1(address_1),
-		.wren_1(wren_1),
-		.rden_1(rden_1),
-		.data_2(data_2),
-		.address_2(address_2),
-		.wren_2(wren_2),
-		.rden_2(rden_2),
-		.data_3(data_3),
-		.address_3(address_3),
-		.wren_3(wren_3),
-		.rden_3(rden_3),
-		.state({7'b0, decrypt_not_complete, shuffle_not_complete, initalize_not_complete}),
-		.data(data),
-		.wren(wren),
-		.address(address),
-		.rden(rden)
+		.total_failure(total_failure_4),
+		.success(success_4),
+		.secret_key(secret_key_4)
+	);
+	
+	master_hex_controller master_hex_controller_inst(
+		.success_state({success_4, success_3, success_2, success_1}),
+		.secret_key_1(secret_key_1),
+		.secret_key_2(secret_key_2),
+		.secret_key_3(secret_key_3),
+		.secret_key_4(secret_key_4),
+		.secret_key(secret_key)
 	);
 		
-		
+	master_state_controller master_state_controller_inst(
+		.clk(clk),
+		.reset(reset_n),
+		.success(success),
+		.stop(stop)
+	);
+	
+	master_LED_controller master_LED_controller_inst(
+		.success_state({success_4, success_3, success_2, success_1}),
+		.failure(failure),
+		.LEDR(LEDR)
+	);
+
 		
 	
 	
