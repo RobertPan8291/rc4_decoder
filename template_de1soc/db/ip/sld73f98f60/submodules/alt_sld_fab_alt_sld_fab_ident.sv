@@ -20,7 +20,7 @@
 // Altera Identification hub
 //
 // Parameters
-//   DESIGN_HASH   : abfa50161e71fe8d7e9e
+//   DESIGN_HASH   : 9dbb1c929a315771b6fb
 //   COUNT         : 1
 //   ROM_WIDTHS    : 4
 //   LATENCIES     : 0
@@ -39,7 +39,7 @@ module alt_sld_fab_alt_sld_fab_ident
 );
 
 
-wire [127:0] data_0 = { mixed, 12'h0, 32'h0, 80'habfa50161e71fe8d7e9e };
+wire [127:0] data_0 = { mixed, 12'h0, 32'h0, 80'h9dbb1c929a315771b6fb };
 
 reg [3:0] result_0;
 always @(address_0 or data_0) begin
