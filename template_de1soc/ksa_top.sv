@@ -55,9 +55,10 @@ module ksa_top(
 	logic [7:0] Decode_q;
 	
 	logic [23:0] secret_key;
-	
-	assign secret_key = {14'd0, SW};
-	
+	logic failure;
+	logic success;
+	logic reset_all;
+		
 	logic [7:0] counter_i = 8'd0;
 	
 	logic [7:0] counter_j = 8'd0;
@@ -71,6 +72,46 @@ module ksa_top(
 		.clock(clk),
 		.rden(rden)
 	); 
+	
+	key_controller key_controller_inst(
+		.clk(clk),
+		.reset(reset_n),
+		.failure(failure),
+		.success(success),
+		.reset_all(reset_all),
+		.secret_key(secret_key)
+		);
+	
+	SevenSegmentDisplayDecoder display1(
+		.nIn(secret_key[3:0]),
+		.ssOut(HEX0)
+	);
+	
+	SevenSegmentDisplayDecoder display2(
+		.nIn(secret_key[7:4]),
+		.ssOut(HEX1)
+	);
+
+	SevenSegmentDisplayDecoder display3(
+		.nIn(secret_key[11:8]),
+		.ssOut(HEX2)
+	);
+
+	SevenSegmentDisplayDecoder display4(
+		.nIn(secret_key[15:12]),
+		.ssOut(HEX3)
+	);
+
+	SevenSegmentDisplayDecoder display5(
+		.nIn(secret_key[19:16]),
+		.ssOut(HEX4)
+	);
+
+	SevenSegmentDisplayDecoder display6(
+		.nIn(secret_key[23:20]),
+		.ssOut(HEX5)
+	);
+
 	
 	Encode_ROM my_ROM(
 		.address(ROM_address),
@@ -89,7 +130,7 @@ module ksa_top(
 	
 	initialize_fsm initialize_fsm_inst(
 		.clk(clk),
-		.reset(reset_n),
+		.reset(reset_all),
 		.data(data_1),
 		.address(address_1),
 		.wren(wren_1),
@@ -99,7 +140,7 @@ module ksa_top(
 		
 	shuffle_fsm shuffle_fsm_inst(
 		.clk(clk),
-		.reset(reset_n),
+		.reset(reset_all),
 		.start(initalize_not_complete),
 		.q(q),
 		.secret_key(secret_key),
@@ -112,7 +153,7 @@ module ksa_top(
 		
 	decrypt_fsm decrypt_fsm_inst(
 		.clk(clk),
-		.reset(reset_n),
+		.reset(reset_all),
 		.start(shuffle_not_complete),
 		.q(q),
 		.ROM_output(ROM_output),
@@ -126,7 +167,9 @@ module ksa_top(
 		.Decode_wren(Decode_wren),
 		.rden(rden_3),
 		.ROM_rden(ROM_rden),
-		.not_complete(decrypt_not_complete)
+		.not_complete(decrypt_not_complete),
+		.failure(failure),
+		.success(success)
 		);
 		
 		

@@ -1,2 +1,5 @@
 Warning (10268): Verilog HDL information at shuffle_fsm.sv(45): always construct contains both blocking and non-blocking assignments File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/shuffle_fsm.sv Line: 45
 Warning (10268): Verilog HDL information at to_RAM_mux.sv(22): always construct contains both blocking and non-blocking assignments File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/to_RAM_mux.sv Line: 22
+Info (10281): Verilog HDL Declaration information at decrypt_fsm.sv(18): object "failure" differs only in case from object "FAILURE" in the same scope File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/decrypt_fsm.sv Line: 18
+Info (10281): Verilog HDL Declaration information at key_controller.sv(3): object "reset" differs only in case from object "RESET" in the same scope File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/key_controller.sv Line: 3
+Info (10281): Verilog HDL Declaration information at key_controller.sv(5): object "success" differs only in case from object "SUCCESS" in the same scope File: C:/intelFPGA_lite/16.1/project/lab4/template_de1soc/key_controller.sv Line: 5

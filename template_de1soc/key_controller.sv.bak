@@ -1,0 +1,32 @@
+module key_controller(	
+	input clk,
+	input reset,
+	input failure,
+	input success,
+	output logic reset_all,
+	output logic [23:0] secret_key, 
+	); 
+	
+	parameter [4:0] START = 5'b00101, 
+						 RESET = 5'b00011,
+						 WAIT = 5'b00000,
+						 FAILURE = 5'b01000,
+						 SUCCESS = 5'b10000;
+						 
+	logic [4:0] state = START; 
+	assign reset_all = state[0]; 
+	
+	always_comb begin
+		if(state[2]) 
+			secret_key = 24'd0;
+		else if(state[1])
+			secret_key = secret_key + 1'b1
+		else 
+			secret_key = secret_key
+	end
+	
+endmodule
+
+
+						 
+	

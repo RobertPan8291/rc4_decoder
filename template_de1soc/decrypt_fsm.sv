@@ -14,7 +14,9 @@ module decrypt_fsm(
 	output logic wren,
 	output logic ROM_rden,
 	output logic Decode_wren,
-	output logic not_complete	
+	output logic not_complete,
+	output logic failure,
+	output logic success
 	); 
 	
 	/*parameter [24:0] INITIALIZE = 25'b0_0000_0000_0000_0000_0000_0000,
@@ -46,8 +48,10 @@ module decrypt_fsm(
 						  WAIT_F_2 = 5'b01111,
 						  F_XOR = 5'b10000,
 						  F_XOR_WAIT = 5'b10001,
-						  REFRESH = 5'b10010,
-						  FINISH = 5'b10011;
+						  CHECK = 5'b10010,
+						  REFRESH = 5'b10011,
+						  FINISH = 5'b10100,
+						  FAILURE = 5'b10101;
 						  
 						  
 						  
@@ -58,10 +62,11 @@ module decrypt_fsm(
 	logic [7:0] temp_reg_i;
 	logic [7:0] temp_reg_j;
 	logic [7:0] temp_reg_f; 
+	logic [7:0] temp_reg_msg;
 	
 	logic [7:0] temp_reg_i_and_j;
 
-	logic [24:0] state = INITIALIZE; 
+	logic [4:0] state = INITIALIZE; 
 	
 	
 	always_ff @(posedge clk) begin
@@ -95,12 +100,17 @@ module decrypt_fsm(
 									Decode_wren <= 1'b0;
 									Decode_adddress <= 5'd0;
 									decrypt_message <= 8'd0;
+									failure <= 1'b0;
+									success <= 1'b0;
 								end
 				INCREMENT: begin
 									counter_i <= counter_i + 1;
 									wren <= 1'b0; 
 									rden <= 1'b1;
 									address <= address + 1;
+									failure <= 1'b0;
+									success <= 1'b0;
+
 							  end
 				COMPUTE_J: begin
 									temp_reg_i <= q;
@@ -133,6 +143,7 @@ module decrypt_fsm(
 									Decode_adddress <= counter_k;
 									Decode_wren <= 1'b1;
 									decrypt_message <= q ^ ROM_output;
+									temp_reg_msg <= q ^ ROM_output;
 						end
 				REFRESH: begin
 								address <= counter_i;
@@ -142,6 +153,7 @@ module decrypt_fsm(
 								decrypt_message <= 8'd0;
 							end
 				FINISH: begin
+							success <= 1'b1;
 							wren <= 1'b0; 
 							rden <= 1'b1;
 							address <= 8'd0;
@@ -156,57 +168,27 @@ module decrypt_fsm(
 							Decode_adddress <= 5'd0;
 							decrypt_message <= 8'd0;
 						 end
+				FAILURE: begin
+								failure <= 1'b1;
+								wren <= 1'b0; 
+								rden <= 1'b1;
+								address <= 8'd0;
+								data <= 8'd0;
+								not_complete <= 1'b0;
+								counter_i <= 8'd0;
+								counter_j <= 8'd0;
+								counter_k <= 8'd0;
+								ROM_address <= 5'd0;
+								ROM_rden <= 1'b0;
+								Decode_wren <= 1'b0;
+								Decode_adddress <= 5'd0;
+								decrypt_message <= 8'd0;
+							end
 			endcase
 		end
 	
 	end
-	
-	/*assign rden = state[1];
-	assign wren = state[0];
-	assign not_complete = state[24];
-	
-	assign counter_i = state[8] ? counter_i + 1'b1 : counter_i;
-	
-	always_comb begin
-		if(state[2]) begin
-			address = counter_i;
-		end 
-		else if(state[3]) begin
-			address = counter_j;
-		end 
-		else begin 
-			address = 0;
-		end 
 		
-		if(state[0]) begin //Initialize state
-			rden = 1'b0; 
-			wren = 1'b0; 
-			not_complete = 1'b0;
-			data = 8'd0;
-			address = 8'd0;
-			counter_i = 8'd0;
-			counter_j = 8'd0; 
-		end 
-		else if(state[1]) begin
-			rden = 1'b1;
-			wren = 1'b0; 
-			not_complete = 1'b0;
-
-
-		
-		end
-		
-		
-		else begin
-			rden = 1'b0; 
-			wren = 1'b0; 
-			not_complete = 1'b0;
-			data = 8'd0;
-			address = 8'd0;
-		end
-	
-	end*/
-	
 		
 	
 	
@@ -242,9 +224,17 @@ module decrypt_fsm(
 				WAIT_F: state <= WAIT_F_2;
 				WAIT_F_2: state <= F_XOR;
 				F_XOR: state <= F_XOR_WAIT;
-				F_XOR_WAIT: state <= REFRESH;
+				F_XOR_WAIT: state <= CHECK;
+				CHECK: begin
+							if((temp_reg_msg > 8'd122 || temp_reg_msg < 8'd97) && temp_reg_msg != 8'd32)
+									state <= FAILURE;
+							else 
+									state <= REFRESH;
+							
+						 end
 				REFRESH: state <= INCREMENT;
 				FINISH: state <= FINISH;
+				FAILURE: state <= INITIALIZE;
 			endcase
 		
 		
