@@ -42,7 +42,7 @@ module core1(
 	logic [4:0] Decode_adddress;
 	
 	logic [7:0] Decode_q;
-	
+	logic failure;
 	logic reset_all;
 
 	logic [9:0] LEDR;
@@ -59,7 +59,8 @@ module core1(
 	key_controller_1 key_controller_1_inst(
 		.clk(clk),
 		.reset(reset_n),
-		.failure(total_failure),
+		.failure(failure),
+		.total_failure(total_failure),
 		.success(success),
 		.reset_all(reset_all),
 		.secret_key(secret_key),

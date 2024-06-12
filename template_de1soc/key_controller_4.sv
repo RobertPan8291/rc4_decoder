@@ -3,6 +3,7 @@ module key_controller_4(
 	input reset,
 	input failure,
 	input success,
+	output logic total_failure,
 	output logic reset_all,
 	output logic [23:0] secret_key,
 	output logic [9:0] LEDR
@@ -22,11 +23,14 @@ module key_controller_4(
 						secret_key <= 24'd0;
 						reset_all <= 1'b0;
 						LEDR <= 10'd0;
+						total_failure <= 1'b0;
 					 end
 			RESET: begin
 						secret_key <= secret_key + 1'b1;
 						reset_all <= 1'b0;
 						LEDR <= 10'd0;
+						total_failure <= 1'b0;
+
 					 end
 			WAIT: begin
 						reset_all <= 1'b1;
@@ -37,6 +41,7 @@ module key_controller_4(
 						end
 			FAILURE: begin
 						LEDR <= 10'd4;
+						total_failure <= 1'b1;
 						end
 		 endcase
 			

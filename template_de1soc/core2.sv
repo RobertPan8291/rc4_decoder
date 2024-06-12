@@ -43,6 +43,7 @@ module core2(
 	
 	logic [7:0] Decode_q;
 	
+	logic failure;
 	logic reset_all;
 
 	logic [9:0] LEDR;
@@ -59,7 +60,8 @@ module core2(
 	key_controller_2 key_controller_2_inst(
 		.clk(clk),
 		.reset(reset_n),
-		.failure(total_failure),
+		.failure(failure),
+		.total_failure(total_failure);
 		.success(success),
 		.reset_all(reset_all),
 		.secret_key(secret_key),
