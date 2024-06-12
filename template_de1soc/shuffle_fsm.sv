@@ -2,6 +2,7 @@ module shuffle_fsm(
 	input clk,
 	input reset, 
 	input start,
+	input stop,
 	input [7:0] q,
 	input [23:0] secret_key,
 	output logic [7:0] data,
@@ -30,7 +31,8 @@ module shuffle_fsm(
 						 WRITE_TO_I = 4'b1001,
 						 WAIT_WRITE_I = 4'b1100,
 						 INCREMENT = 4'b1110,
-						 FINISH = 4'b1101;
+						 FINISH = 4'b1101,
+						 STOP = 4'b1110;
 						
    logic [3:0] state = INITIALIZE;
 	
@@ -104,6 +106,13 @@ module shuffle_fsm(
 								address <= 8'd0;
 								data <= 8'd0;
 						  end
+				STOP: begin
+								wren <= 1'b0; 
+								rden <= 1'b1;
+								address <= 8'd0;
+								data <= 8'd0;
+								not_complete <= 1'b0;	
+						end
 				
 			endcase
 		end
@@ -126,6 +135,8 @@ module shuffle_fsm(
 				SHUFFLE: begin
 								if(counter_i == 9'd256)
 									state <= FINISH;
+								else if(stop)
+									state <= STOP;
 								else
 									state <= WAIT;
 							end

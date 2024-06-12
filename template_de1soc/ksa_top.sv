@@ -58,11 +58,9 @@ module ksa_top(
 	logic failure;
 	logic success;
 	logic reset_all;
-		
-	logic [7:0] counter_i = 8'd0;
 	
-	logic [7:0] counter_j = 8'd0;
-	
+	logic stop;
+
 	
 	s_memory my_mem(
 		.data(data),
@@ -132,6 +130,7 @@ module ksa_top(
 	initialize_fsm initialize_fsm_inst(
 		.clk(clk),
 		.reset(reset_all),
+		.stop(stop),
 		.data(data_1),
 		.address(address_1),
 		.wren(wren_1),
@@ -143,6 +142,7 @@ module ksa_top(
 		.clk(clk),
 		.reset(reset_all),
 		.start(initalize_not_complete),
+		.stop(stop),
 		.q(q),
 		.secret_key(secret_key),
 		.data(data_2),
@@ -156,6 +156,7 @@ module ksa_top(
 		.clk(clk),
 		.reset(reset_all),
 		.start(shuffle_not_complete),
+		.stop(stop),
 		.q(q),
 		.ROM_output(ROM_output),
 		.secret_key(secret_key),

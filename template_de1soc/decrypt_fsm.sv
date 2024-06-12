@@ -5,6 +5,7 @@ module decrypt_fsm(
 	input [7:0] q,
 	input [7:0] ROM_output,
 	input [23:0] secret_key,
+	input stop,
 	output logic [7:0] data,
 	output logic [7:0] decrypt_message,
    output logic [4:0] ROM_address,
@@ -51,7 +52,8 @@ module decrypt_fsm(
 						  CHECK = 5'b10010,
 						  REFRESH = 5'b10011,
 						  FINISH = 5'b10100,
-						  FAILURE = 5'b10101;
+						  FAILURE = 5'b10101,
+						  STOP = 5'b10110;
 						  
 						  
 						  
@@ -184,6 +186,23 @@ module decrypt_fsm(
 								Decode_adddress <= 5'd0;
 								decrypt_message <= 8'd0;
 							end
+					STOP: begin
+									wren <= 1'b0; 
+									rden <= 1'b0;
+									address <= 8'd0;
+									data <= 8'd0;
+									not_complete <= 1'b0;
+									counter_i <= 8'd0;
+									counter_j <= 8'd0;
+									counter_k <= 8'd0;
+									ROM_address <= 5'd0;
+									ROM_rden <= 1'd0;
+									Decode_wren <= 1'b0;
+									Decode_adddress <= 5'd0;
+									decrypt_message <= 8'd0;
+									failure <= 1'b0;
+									success <= 1'b0;
+							end
 			endcase
 		end
 	
@@ -206,6 +225,8 @@ module decrypt_fsm(
 				INCREMENT: 	begin
 									if(counter_k == 8'd32)
 										state <= FINISH;
+									else if (stop)
+										state <= STOP;
 									else
 										state <= READ_SI;
 								end					
