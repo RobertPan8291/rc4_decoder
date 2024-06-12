@@ -44,6 +44,16 @@ module ksa_top(
 	logic shuffle_not_complete;
 	logic decrypt_not_complete;
 	
+	logic [4:0] ROM_address;
+	logic ROM_rden;
+	logic [7:0] ROM_output;
+	
+	logic [7:0] decrypt_message;
+	logic Decode_wren;
+	logic [4:0] Decode_adddress;
+	
+	logic [7:0] Decode_q;
+	
 	logic [23:0] secret_key;
 	
 	assign secret_key = {14'd0, SW};
@@ -62,7 +72,21 @@ module ksa_top(
 		.rden(rden)
 	); 
 	
+	Encode_ROM my_ROM(
+		.address(ROM_address),
+		.rden(ROM_rden),
+		.clock(clk),
+		.q(ROM_output)
+		);
 
+	Decoded_RAM Decoded_RAM_inst(
+		.data(decrypt_message),
+		.wren(Decode_wren),
+		.address(Decode_adddress),
+		.clock(clk),
+		.q(Decode_q)
+		);
+	
 	initialize_fsm initialize_fsm_inst(
 		.clk(clk),
 		.reset(reset_n),
@@ -91,13 +115,21 @@ module ksa_top(
 		.reset(reset_n),
 		.start(shuffle_not_complete),
 		.q(q),
+		.ROM_output(ROM_output),
 		.secret_key(secret_key),
 		.data(data_3),
+		.decrypt_message(decrypt_message),
+		.ROM_address(ROM_address),
+		.Decode_adddress(Decode_adddress),
 		.address(address_3),
 		.wren(wren_3),
+		.Decode_wren(Decode_wren),
 		.rden(rden_3),
+		.ROM_rden(ROM_rden),
 		.not_complete(decrypt_not_complete)
 		);
+		
+		
 		
 		
 	to_RAM_mux to_RAM_mux_inst(

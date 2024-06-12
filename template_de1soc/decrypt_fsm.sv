@@ -3,11 +3,17 @@ module decrypt_fsm(
 	input reset, 
 	input start,
 	input [7:0] q,
+	input [7:0] ROM_output,
 	input [23:0] secret_key,
 	output logic [7:0] data,
-   output logic [7:0] address,
+	output logic [7:0] decrypt_message,
+   output logic [4:0] ROM_address,
+	output logic [4:0] Decode_adddress,
+	output logic [7:0] address,
 	output logic rden,
 	output logic wren,
+	output logic ROM_rden,
+	output logic Decode_wren,
 	output logic not_complete	
 	); 
 	
@@ -34,8 +40,17 @@ module decrypt_fsm(
 						  WAIT_WRITE_J = 5'b01001,
 						  WRITE_TO_I = 5'b01010,
 						  WAIT_WRITE_I = 5'b01011,
-						  COMPUTE_IJ = 5'b01100;
-							 
+						  COMPUTE_IJ = 5'b01100,
+						  READ_F = 5'b01101,
+						  WAIT_F = 5'b01110,
+						  WAIT_F_2 = 5'b01111,
+						  F_XOR = 5'b10000,
+						  F_XOR_WAIT = 5'b10001,
+						  REFRESH = 5'b10010,
+						  FINISH = 5'b10011;
+						  
+						  
+						  
 	logic [7:0] counter_k; 
 	logic [7:0] counter_i;
 	logic [7:0] counter_j;
@@ -58,6 +73,12 @@ module decrypt_fsm(
 			not_complete <= 1'b0;
 			counter_i <= 8'd0;
 			counter_j <= 8'd0;
+			counter_k <= 8'd0;
+			ROM_address <= 5'd0;
+			ROM_rden <= 1'b0;
+			Decode_wren <= 1'b0;
+			Decode_adddress <= 5'd0;
+			decrypt_message <= 8'd0;
 		end else begin
 			case(state)
 				INITIALIZE: begin 
@@ -68,6 +89,12 @@ module decrypt_fsm(
 									not_complete <= 1'b0;
 									counter_i <= 8'd0;
 									counter_j <= 8'd0;
+									counter_k <= 8'd0;
+									ROM_address <= 5'd0;
+									ROM_rden <= 1'd0;
+									Decode_wren <= 1'b0;
+									Decode_adddress <= 5'd0;
+									decrypt_message <= 8'd0;
 								end
 				INCREMENT: begin
 									counter_i <= counter_i + 1;
@@ -95,13 +122,40 @@ module decrypt_fsm(
 				COMPUTE_IJ: begin
 									wren <= 1'b0;
 									rden <= 1'd1;
+									ROM_rden <= 1'd1;
 									temp_reg_i_and_j <= temp_reg_j + temp_reg_i;
 							  end
 				READ_F: begin
-				
-					
+									address <= temp_reg_i_and_j;
+									ROM_address <= counter_k;
 						  end
-				
+				F_XOR: begin
+									Decode_adddress <= counter_k;
+									Decode_wren <= 1'b1;
+									decrypt_message <= q ^ ROM_output;
+						end
+				REFRESH: begin
+								address <= counter_i;
+								Decode_wren <= 1'b0;
+								ROM_rden <= 1'b0;
+								counter_k <= counter_k + 1'b1;
+								decrypt_message <= 8'd0;
+							end
+				FINISH: begin
+							wren <= 1'b0; 
+							rden <= 1'b1;
+							address <= 8'd0;
+							data <= 8'd0;
+							not_complete <= 1'b0;
+							counter_i <= 8'd0;
+							counter_j <= 8'd0;
+							counter_k <= 8'd0;
+							ROM_address <= 5'd0;
+							ROM_rden <= 1'b0;
+							Decode_wren <= 1'b0;
+							Decode_adddress <= 5'd0;
+							decrypt_message <= 8'd0;
+						 end
 			endcase
 		end
 	
@@ -167,7 +221,12 @@ module decrypt_fsm(
 									else
 										state <= INITIALIZE;
 								end
-				INCREMENT: state <= READ_SI;
+				INCREMENT: 	begin
+									if(counter_k == 8'd32)
+										state <= FINISH;
+									else
+										state <= READ_SI;
+								end					
 				READ_SI: state <= WAIT_FOR_SI; 
 				WAIT_FOR_SI: state <= COMPUTE_J;
 				COMPUTE_J: state <= READ_SJ;
@@ -178,7 +237,14 @@ module decrypt_fsm(
 				WAIT_WRITE_J: state <= WRITE_TO_I;
 				WRITE_TO_I: state <= WAIT_WRITE_I;
 				WAIT_WRITE_I: state <= COMPUTE_IJ;
-				COMPUTE_IJ: state <= INCREMENT;
+				COMPUTE_IJ: state <= READ_F;
+				READ_F: state <= WAIT_F;
+				WAIT_F: state <= WAIT_F_2;
+				WAIT_F_2: state <= F_XOR;
+				F_XOR: state <= F_XOR_WAIT;
+				F_XOR_WAIT: state <= REFRESH;
+				REFRESH: state <= INCREMENT;
+				FINISH: state <= FINISH;
 			endcase
 		
 		
