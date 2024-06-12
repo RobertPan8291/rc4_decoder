@@ -56,7 +56,7 @@ module key_controller_2(
 				RESET: begin 
 							if(secret_key == 24'b0100_0000_0000_0000_0000_0000)
 								state <= FAILURE;
-							else if ((secret_key % 4) == 1)
+							else if ((secret_key % 3'd4) == 3'd1)
 								state <= WAIT;
 							else 
 								state <= RESET; 

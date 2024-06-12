@@ -13,7 +13,7 @@ module master_hex_controller(
 			4'b0010: secret_key = secret_key_2;
 			4'b0100: secret_key = secret_key_3;
 			4'b1000: secret_key = secret_key_4;
-			default: secret_key = secret_key_1;
+			default: secret_key = secret_key_4;
 		endcase
 	end
 
