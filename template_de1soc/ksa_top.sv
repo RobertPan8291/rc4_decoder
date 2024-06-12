@@ -79,7 +79,8 @@ module ksa_top(
 		.failure(failure),
 		.success(success),
 		.reset_all(reset_all),
-		.secret_key(secret_key)
+		.secret_key(secret_key),
+		.LEDR(LEDR)
 		);
 	
 	SevenSegmentDisplayDecoder display1(

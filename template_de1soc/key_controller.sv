@@ -4,13 +4,15 @@ module key_controller(
 	input failure,
 	input success,
 	output logic reset_all,
-	output logic [23:0] secret_key
+	output logic [23:0] secret_key,
+	output logic [9:0] LEDR
 	); 
 	
 	parameter [4:0] START = 5'b00000, 
 						 RESET = 5'b00001,
 						 WAIT = 5'b00010,
-						 SUCCESS = 5'b00011;
+						 SUCCESS = 5'b00011,
+						 FAILURE = 5'b00100;
 						 
 	logic [4:0] state = START; 
 	
@@ -19,14 +21,23 @@ module key_controller(
 			START: begin
 						secret_key <= 24'd0;
 						reset_all <= 1'b0;
+						LEDR <= 10'd0;
 					 end
 			RESET: begin
 						secret_key <= secret_key + 1'b1;
 						reset_all <= 1'b0;
+						LEDR <= 10'd0;
 					 end
 			WAIT: begin
 						reset_all <= 1'b1;
+						LEDR <= 10'd0;
 					end
+			SUCCESS: begin
+						LEDR <= 10'd3;
+						end
+			FAILURE: begin
+						LEDR <= 10'd4;
+						end
 		 endcase
 			
 	end
@@ -37,7 +48,12 @@ module key_controller(
 		end else begin
 			case(state) 
 				START: state <= WAIT;
-				RESET: state <= WAIT; 
+				RESET: begin 
+							if(secret_key == 24'b0100_0000_0000_0000_0000_0000)
+								state <= FAILURE;
+							else
+								state <= WAIT; 
+						 end
 				WAIT: begin
 							if(failure)
 								state <= RESET;
@@ -47,6 +63,7 @@ module key_controller(
 								state <= WAIT;
 						end
 				SUCCESS: state <= SUCCESS;
+				FAILURE: state <= FAILURE;
 			endcase
 				
 		end
