@@ -40,11 +40,11 @@ module ksa_top(
 	
 	logic success; 
 	
-	assign success = success_1 || success_2 || success_3 || success_4;
+	assign success = success_1 || success_2 || success_3 || success_4; //upon success by any core, success signal is triggered
 	
 	logic failure; 
 	
-	assign failure = total_failure_1 && total_failure_2 && total_failure_3 && total_failure_4;
+	assign failure = total_failure_1 && total_failure_2 && total_failure_3 && total_failure_4; //only after all cores have exhausted their possible keys, is failure declared
 
 	
 	SevenSegmentDisplayDecoder display1(
@@ -77,7 +77,8 @@ module ksa_top(
 		.ssOut(HEX5)
 	);
 
-	
+	//The 4 cores each responsible for covering 25% of all possible secret key combination, 
+	//if the key % 4 is equal to 1, it goes to core 1, key % 4 == 2 goes to core 2, so on and so forth
 	core1 core1_inst(
 		.clk(clk),
 		.reset_n(reset_n),
@@ -86,6 +87,7 @@ module ksa_top(
 		.success(success_1),
 		.secret_key(secret_key_1)
 	);
+	
 	
 	core2 core2_inst(
 		.clk(clk),
@@ -114,6 +116,7 @@ module ksa_top(
 		.secret_key(secret_key_4)
 	);
 	
+	//controls the secret key displayed on the hex
 	master_hex_controller master_hex_controller_inst(
 		.success_state({success_4, success_3, success_2, success_1}),
 		.secret_key_1(secret_key_1),
@@ -123,6 +126,7 @@ module ksa_top(
 		.secret_key(secret_key)
 	);
 		
+	//Simple state machine that sends all cores a stop signal upon one cores success	
 	master_state_controller master_state_controller_inst(
 		.clk(clk),
 		.reset(reset_n),
@@ -130,6 +134,7 @@ module ksa_top(
 		.stop(stop)
 	);
 	
+	//Controls LEDs depending on success or failure of cores
 	master_LED_controller master_LED_controller_inst(
 		.success_state({success_4, success_3, success_2, success_1}),
 		.failure(failure),

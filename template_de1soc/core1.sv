@@ -7,23 +7,26 @@ module core1(
 	output logic [23:0] secret_key
 	); 
 	
+	//This set is the final value that goes towards the s_memory module
 	logic [7:0] data; 
 	logic wren; //write enable;
 	logic [7:0] address; 
 	logic [7:0] q;
 	logic rden; //read enable;
 	
-		
+	//Set of value that the initalize fsm outputs	
 	logic [7:0] data_1; 
 	logic wren_1; //write enable;
 	logic [7:0] address_1; 
 	logic rden_1; //read enable;
 	
+	//Set of value that the shuffle fsm outputs
 	logic [7:0] data_2; 
 	logic wren_2; //write enable;
 	logic [7:0] address_2; 
 	logic rden_2; //read enable;
 	
+	//Set of value that the decrypt fsm outputs
 	logic [7:0] data_3; 
 	logic wren_3; //write enable;
 	logic [7:0] address_3; 
@@ -47,6 +50,7 @@ module core1(
 
 	logic [9:0] LEDR;
 		
+	//represents s[]	
 	s_memory my_mem_1(
 		.data(data),
 		.wren(wren),
@@ -56,6 +60,7 @@ module core1(
 		.rden(rden)
 	); 
 	
+	//controller that sets the secret key 
 	key_controller_1 key_controller_1_inst(
 		.clk(clk),
 		.reset(reset_n),
@@ -67,13 +72,15 @@ module core1(
 		.LEDR(LEDR)
 		);
 	
+	//represents encrypted_input[]
 	Encode_ROM my_ROM_1(
 		.address(ROM_address),
 		.rden(ROM_rden),
 		.clock(clk),
 		.q(ROM_output)
 		);
-
+		
+	//represents decrypted_output[]
 	Decoded_RAM Decoded_RAM_1_inst(
 		.data(decrypt_message),
 		.wren(Decode_wren),
@@ -81,6 +88,11 @@ module core1(
 		.clock(clk),
 		.q(Decode_q)
 		);
+	
+	//carries out the following lines of code
+	//		for i = 0 to 255 {
+	//			s[i] = i;
+	//		}
 	
 	initialize_fsm initialize_fsm_1_inst(
 		.clk(clk),
@@ -92,6 +104,13 @@ module core1(
 		.rden(rden_1),
 		.not_complete(initalize_not_complete)
 		); 
+		
+	//carries out the following lines of code
+	//	j = 0
+	//	for i = 0 to 255 {
+	//		j = (j + s[i] + secret_key[i mod keylength] ) //keylength is 3 in our impl.
+	//		swap values of s[i] and s[j]
+	//	}
 		
 	shuffle_fsm shuffle_fsm_1_inst(
 		.clk(clk),
@@ -106,6 +125,16 @@ module core1(
 		.rden(rden_2),
 		.not_complete(shuffle_not_complete)
 		);
+		
+	//carries out the following lines of code 
+	//	i = 0, j=0
+	//	for k = 0 to message_length-1 { // message_length is 32 in our implementation
+	//		i = i+1
+	//		j = j+s[i]
+	//		swap values of s[i] and s[j]
+	//		f = s[ (s[i]+s[j]) ]
+	//		decrypted_output[k] = f xor encrypted_input[k] // 8 bit wide XOR function
+	//	}
 		
 	decrypt_fsm decrypt_fsm_1_inst(
 		.clk(clk),
@@ -131,7 +160,7 @@ module core1(
 		
 		
 		
-		
+	//Mux that determines which output will drive s[] depending on the state we are in 	
 	to_RAM_mux to_RAM_mux_1_inst(
 		.data_1(data_1),
 		.address_1(address_1),

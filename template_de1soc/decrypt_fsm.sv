@@ -20,16 +20,6 @@ module decrypt_fsm(
 	output logic success
 	); 
 	
-	/*parameter [24:0] INITIALIZE = 25'b0_0000_0000_0000_0000_0000_0000,
-						  INCREMENT = 25'd0_0000_0000_0000_0001_0000_0010,
-						  READ_SI = 25'd0_0000_0000_0000_0000_0000_0110,
-						  WAIT_FOR_SI = 25'd0_0000_0000_0000_0000_0000_0110,
-						  COMPUTE_J = 25'd16,
-						  READ_SJ = 25'd32,
-						  WAIT_FOR_SJ = 25'd64, 
-						  WRITE_SJ = 25'd128,
-						  WRITE_SI = 25'd256;*/
-						  
 						  
 	parameter [4:0]  INITIALIZE = 5'b00000,
 						  INCREMENT = 5'b00001,
@@ -106,7 +96,7 @@ module decrypt_fsm(
 									success <= 1'b0;
 								end
 				INCREMENT: begin
-									counter_i <= counter_i + 1;
+									counter_i <= counter_i + 1; //i = i+1
 									wren <= 1'b0; 
 									rden <= 1'b1;
 									address <= address + 1;
@@ -116,33 +106,33 @@ module decrypt_fsm(
 							  end
 				COMPUTE_J: begin
 									temp_reg_i <= q;
-									counter_j <= counter_j + q; 
+									counter_j <= counter_j + q; //j = j + s[i]
 							  end
 				READ_SJ: begin
 									address <= counter_j;
 							end
 				WRITE_TO_J: begin
-									wren <= 1'b1;
+									wren <= 1'b1; //after storing j, writes s[i] to s[j]
 									rden <= 1'b0;
 									temp_reg_j <= q; 
 									data <= temp_reg_i;
 							 end
 				WRITE_TO_I: begin
-									address <= counter_i;  
+									address <= counter_i;  //writing s[j] to s[i]
 									data <= temp_reg_j;
 								end
 				COMPUTE_IJ: begin
 									wren <= 1'b0;
 									rden <= 1'd1;
 									ROM_rden <= 1'd1;
-									temp_reg_i_and_j <= temp_reg_j + temp_reg_i;
+									temp_reg_i_and_j <= temp_reg_j + temp_reg_i; //calculating s[i] +s[j]
 							  end
 				READ_F: begin
-									address <= temp_reg_i_and_j;
-									ROM_address <= counter_k;
+									address <= temp_reg_i_and_j; //extracting f
+									ROM_address <= counter_k; 
 						  end
 				F_XOR: begin
-									Decode_adddress <= counter_k;
+									Decode_adddress <= counter_k; 
 									Decode_wren <= 1'b1;
 									decrypt_message <= q ^ ROM_output;
 									temp_reg_msg <= q ^ ROM_output;
@@ -154,7 +144,7 @@ module decrypt_fsm(
 								counter_k <= counter_k + 1'b1;
 								decrypt_message <= 8'd0;
 							end
-				FINISH: begin
+				FINISH: begin  //enters this state when this core has discovered the solution
 							success <= 1'b1;
 							wren <= 1'b0; 
 							rden <= 1'b1;
@@ -170,7 +160,7 @@ module decrypt_fsm(
 							Decode_adddress <= 5'd0;
 							decrypt_message <= 8'd0;
 						 end
-				FAILURE: begin
+				FAILURE: begin //enters this state when this core exhausted all possibility
 								failure <= 1'b1;
 								wren <= 1'b0; 
 								rden <= 1'b1;
@@ -186,7 +176,7 @@ module decrypt_fsm(
 								Decode_adddress <= 5'd0;
 								decrypt_message <= 8'd0;
 							end
-					STOP: begin
+					STOP: begin //enters this state when another core discovered the solution
 									wren <= 1'b0; 
 									rden <= 1'b0;
 									address <= 8'd0;

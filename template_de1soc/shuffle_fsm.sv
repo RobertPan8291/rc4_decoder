@@ -75,12 +75,6 @@ module shuffle_fsm(
 				READ_J: begin
 								address <= counter_j; //extract s[j] before we overwrite it
 						  end
-				//WAIT_J: begin
-						  		//temp_reg_j <= q;
-
-						  //end
-				//WAIT_J_2: begin
-							 //end
 				WRITE_TO_J: begin
 									temp_reg_j <= q; //storing s[j] in a temporary reg
 									wren <= 1'b1;
@@ -88,20 +82,17 @@ module shuffle_fsm(
 									data <= temp_reg; //writing s[i] to s[j]
 								end
 				WRITE_TO_I: begin
-									address <= counter_i;  
+									address <= counter_i;  //writing s[j] to s[i]
 									data <= temp_reg_j;
 								end
-				//WAIT_WRITE_I: begin
-
-								  //end
 				INCREMENT: begin
 									wren <= 1'b0;
 									rden <= 1'd1;
-									counter_i <= counter_i + 1;
+									counter_i <= counter_i + 1; //increments i upon the end of one loop
 									address <= address + 1;
 							  end
 				FINISH: begin
-								not_complete = 1'b1;
+								not_complete = 1'b1; //sends complete signal, notifying decrypt fsm to begin its operations 
 								wren <= 1'b0;
 								rden <= 1'd0;
 								address <= 8'd0;
@@ -134,7 +125,7 @@ module shuffle_fsm(
 										state <= INITIALIZE;
 								end
 				SHUFFLE: begin
-								if(counter_i == 9'd256)
+								if(counter_i == 9'd256) 
 									state <= FINISH;
 								else if(stop)
 									state <= STOP;

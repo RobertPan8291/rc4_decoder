@@ -17,7 +17,7 @@ module initialize_fsm(
 			data <= 8'd0;
 			not_complete <= 1'b0;
 		end else begin
-			if(address < 8'd255 && ~stop) begin
+			if(address < 8'd255 && ~stop) begin //Increments address and data every clk cycle to populate s[]
 				wren <= 1'b1; 
 				address <= address + 1;
 				data <= data + 1;
@@ -31,7 +31,7 @@ module initialize_fsm(
 				data <= 8'd0;
 			end
 			else begin
-				not_complete <= 1'b1;
+				not_complete <= 1'b1; //when finished, sends the complete signal to the next fsm, indicating that it should begin
 				wren <= 1'b0; 
 				rden <= 1'b0;
 				address <= 8'd0;

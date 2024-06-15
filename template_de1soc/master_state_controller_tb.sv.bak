@@ -1,0 +1,23 @@
+module master_state_controller_tb();
+	reg clk;
+	reg reset;
+	reg success; 
+	wire stop 
+	
+	master_state_controller DUT(
+		.clk(clk),
+		.reset(reset),
+		.success(success),
+		.stop(stop)
+	);
+	
+	always #5 clk = ~clk; 
+	
+	initial begin
+		clk = 1'b0; 
+		#50;
+		success = 1'b1; 
+	end
+
+endmodule 
+	
